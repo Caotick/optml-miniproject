@@ -7,7 +7,7 @@ from torch.utils.data import ConcatDataset
 from torchvision import transforms
 from sklearn.model_selection import KFold
 from datasets import PIMADataset, HousingDataset
-from models import MLP
+from models import FashionCNN, MLP
 from torch.optim import SGD, Adam, Adagrad
 
 
@@ -81,10 +81,10 @@ def get_model(dataname):
         return MLP(in_dim=8, out_dim=2, nb_hidden=4, hidden_dim=30)
 
     elif dataname.lower() == 'californiahousing':
-        raise NotImplementedError()
+        return MLP(in_dim=8, out_dim=1, nb_hidden=4, hidden_dim=30)
 
     elif dataname.lower() == 'fashionmnist':
-        raise NotImplementedError()
+        return FashionCNN()
     else:
         raise Exception(f'Dataset {dataname} is not supported')
 
@@ -109,6 +109,6 @@ def get_optimizer(opt_name, parameters):
         return Adam(parameters, lr=0.01)
 
     elif opt_name.lower() == 'adagrad':
-        raise NotImplementedError
+        return Adagrad(parameters, lr=0.01)
     else:
         raise Exception(f'Optimizer {opt_name} is not supported')
