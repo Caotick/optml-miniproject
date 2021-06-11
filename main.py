@@ -1,4 +1,6 @@
+from postprocess import generate_plots
 from train import  train
+from postprocess import *
 from helpers import *
 
 # Creates the complete folder architecture
@@ -20,4 +22,5 @@ for prob in problems:
         train(dataset, folds, prob, opt)
 
 
+generate_plots()
 

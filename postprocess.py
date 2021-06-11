@@ -10,7 +10,7 @@ def generate_plots():
     Generates the plots after having run all data, just call it at the end baby and you'll like it
     """
 
-    problems = ['PIMA', ] #'CaliforniaHousing', 'FashionMNIST'] To add when we will have data on those bad boys
+    problems = ['PIMA'] #, 'CaliforniaHousing', 'FashionMNIST'] To add when we will have data on those bad boys
     optimizers = ['SGD', 'Adagrad', 'Adam']
     current = os.getcwd()
     data_path = current + "/data/test_run"
