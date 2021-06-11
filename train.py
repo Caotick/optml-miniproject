@@ -50,6 +50,8 @@ def train_single_fold(model, optimizer, criterion, trainloader, testloader, epoc
             targets = targets.to(device)
             optimizer.zero_grad()
             output = model(inputs)
+            if(output.size()[1] == 1) :
+                output = torch.squeeze(output, 1)
             loss = criterion(output, targets)
             train_loss += loss.data.item()
             loss.backward()
@@ -69,6 +71,8 @@ def train_single_fold(model, optimizer, criterion, trainloader, testloader, epoc
             inputs = inputs.to(device)
             targets = targets.to(device)
             output = model(inputs)
+            if(output.size()[1] == 1) :
+                output = torch.squeeze(output, 1)
             loss = criterion(output, targets)
             val_loss += loss.data.item()
             if type(criterion) == nn.CrossEntropyLoss:
@@ -80,14 +84,14 @@ def train_single_fold(model, optimizer, criterion, trainloader, testloader, epoc
         #val_loss = val_loss * batch_size / len(test_set)  # Necessary to have the mean val loss
 
         if type(criterion) == nn.CrossEntropyLoss:
-            if epoch % 10 == 0:
+            if epoch == 9:
                 print(
                     f'Epoch {epoch}, Training Loss: {train_loss:.2f}, Validation Loss : {val_loss:.2f}, accuracy = {num_correct / num_examples:.2f}')
             train_losses.append(train_loss)
             val_losses.append(val_loss)
             accuracies.append(num_correct / num_examples)
         else:
-            if epoch % 10 == 0:
+            if epoch == 9:
                 print(
                     f'Epoch {epoch}, Training Loss: {train_loss:.2f}, Validation Loss : {val_loss:.2f}')
             train_losses.append(train_loss)
