@@ -56,7 +56,7 @@ def save_res(problem, optimizer, train_losses, val_losses, accuracies, nb_fold):
 
 def load_data(dataname, k_folds = 10):
     dataset = None
-    kfold = KFold(n_splits=k_folds, shuffle=True)
+    kfold = KFold(n_splits=k_folds, shuffle=True, random_state= 404)
 
     if dataname.lower() == 'pima':
         dataset = PIMADataset('data/PIMA/diabetes.csv')
