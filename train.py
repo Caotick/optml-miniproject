@@ -24,7 +24,7 @@ def train(dataset, folds, prob, opt):
         optimizer = get_optimizer(opt, parameters=model.parameters())
         criterion = get_criterion(prob)
 
-        train_losses, val_losses, accuracies = train_single_fold(model, optimizer, criterion, trainloader, testloader, epochs = 10)
+        train_losses, val_losses, accuracies = train_single_fold(model, optimizer, criterion, trainloader, testloader, epochs = 100)
 
         save_res(prob, opt, train_losses, val_losses, accuracies, fold)
 
@@ -84,16 +84,12 @@ def train_single_fold(model, optimizer, criterion, trainloader, testloader, epoc
         #val_loss = val_loss * batch_size / len(test_set)  # Necessary to have the mean val loss
 
         if type(criterion) == nn.CrossEntropyLoss:
-            if epoch == 9:
-                print(
-                    f'Epoch {epoch}, Training Loss: {train_loss:.2f}, Validation Loss : {val_loss:.2f}, accuracy = {num_correct / num_examples:.2f}')
+            print(f'Epoch {epoch}, Training Loss: {train_loss:.2f}, Validation Loss : {val_loss:.2f}, accuracy = {num_correct / num_examples:.2f}')
             train_losses.append(train_loss)
             val_losses.append(val_loss)
             accuracies.append(num_correct / num_examples)
         else:
-            if epoch == 9:
-                print(
-                    f'Epoch {epoch}, Training Loss: {train_loss:.2f}, Validation Loss : {val_loss:.2f}')
+            print(f'Epoch {epoch}, Training Loss: {train_loss:.2f}, Validation Loss : {val_loss:.2f}')
             train_losses.append(train_loss)
             val_losses.append(val_loss)
 

@@ -22,7 +22,7 @@ def generate_plots():
         fig, axs = plt.subplots(nrows=3, ncols=1, sharey=True, figsize=(6, 15))
 
         # Decide number of epochs!
-        nb_epochs = 10
+        nb_epochs = 100
         nb_fold = 10
 
         train_losses = np.zeros((nb_fold, nb_epochs))
@@ -75,3 +75,4 @@ def generate_plots():
 
             plt.savefig(graph_path + f"/{prob}.png")
 
+generate_plots()

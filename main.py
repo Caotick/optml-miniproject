@@ -21,6 +21,3 @@ for prob in problems:
         print('--------------------------------')
         train(dataset, folds, prob, opt)
 
-
-generate_plots()
-

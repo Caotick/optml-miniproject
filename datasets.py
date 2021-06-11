@@ -34,6 +34,8 @@ class HousingDataset(Dataset):
     """
     def __init__(self, csv_file):
         df = pd.read_csv(csv_file)
+        #Dropping rows that contain Nan (missing values only in total_bedrooms, nb columns dropped = 207)
+        df = df.dropna()
         # Standardising
         X = df.drop(['median_house_value', 'ocean_proximity'], axis=1)
         # TODO standardise lat lon ?

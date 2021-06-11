@@ -4,6 +4,7 @@ import torch.nn.functional as F
 
 class MLP(nn.Module):
     def __init__(self, in_dim=8, out_dim=2, nb_hidden=3, hidden_dim=30):
+        #Inspired from... https://www.kaggle.com/alankritamishra/pytorchann ?
         super().__init__()
         self.nb_hidden = nb_hidden
         self.fc_in = nn.Linear(in_dim, hidden_dim)
