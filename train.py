@@ -24,7 +24,7 @@ def train(dataset, folds, prob, opt):
         optimizer = get_optimizer(opt, parameters=model.parameters())
         criterion = get_criterion(prob)
 
-        train_losses, val_losses, accuracies = train_single_fold(model, optimizer, criterion, trainloader, testloader)
+        train_losses, val_losses, accuracies = train_single_fold(model, optimizer, criterion, trainloader, testloader, epochs = 10)
 
         save_res(prob, opt, train_losses, val_losses, accuracies, fold)
 

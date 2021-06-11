@@ -11,10 +11,10 @@ problems = ['PIMA', 'CaliforniaHousing', 'FashionMNIST']
 optimizers = ['SGD', 'Adagrad', 'Adam']
 
 for prob in problems:
-    dataset, folds = load_data(prob, k_folds=10)
     print(f'Problem {prob}')
     print('--------------------------------')
     for opt in optimizers:
+        dataset, folds = load_data(prob, k_folds=10) ### Have to shift this here because folds don't run otherwise
         print(f'Optimizer {opt}')
         print('--------------------------------')
         train(dataset, folds, prob, opt)
