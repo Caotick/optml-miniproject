@@ -94,21 +94,20 @@ def get_criterion(dataname):
         return nn.CrossEntropyLoss()
 
     elif dataname.lower() == 'californiahousing':
-        return nn.MSELoss()
+        return nn.L1Loss()
 
     else:
         raise Exception(f'Dataset {dataname} is not supported')
 
 
 def get_optimizer(opt_name, parameters):
-    # TODO pass by value/ref problem with params ?
     if opt_name.lower() == 'sgd':
         return SGD(parameters, lr=0.01)
 
     elif opt_name.lower() == 'adam':
-        return Adam(parameters, lr=0.01)
+        return Adam(parameters, lr=0.001)
 
     elif opt_name.lower() == 'adagrad':
-        return Adagrad(parameters, lr=0.01)
+        return Adagrad(parameters, lr=0.001)
     else:
         raise Exception(f'Optimizer {opt_name} is not supported')

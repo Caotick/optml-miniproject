@@ -5,12 +5,12 @@ import os
 from collections import defaultdict
 
 
-def generate_plots():
+def generate_plots(nb_epochs, nb_fold):
     """
-    Generates the plots after having run all data, just call it at the end baby and you'll like it
+    Generates the plots after having run all data
     """
 
-    problems = ['PIMA'] #, 'CaliforniaHousing', 'FashionMNIST'] To add when we will have data on those bad boys
+    problems = ['PIMA', 'CaliforniaHousing', 'FashionMNIST']
     optimizers = ['SGD', 'Adagrad', 'Adam']
     current = os.getcwd()
     data_path = current + "/data/test_run"
@@ -21,22 +21,18 @@ def generate_plots():
     for prob in problems:
         fig, axs = plt.subplots(nrows=3, ncols=1, sharey=True, figsize=(6, 15))
 
-        # Decide number of epochs!
-        nb_epochs = 100
-        nb_fold = 10
-
         train_losses = np.zeros((nb_fold, nb_epochs))
         val_losses = np.zeros((nb_fold, nb_epochs))
         accuracies = np.zeros((nb_fold, nb_epochs))
 
         for ax, optimizer in enumerate(optimizers):
             current_prob_path = data_path + f"/{prob}/{optimizer}"
-            for i in range(10):
+            for i in range(nb_fold):
                 with open(current_prob_path + f'/{i}.pkl', 'rb') as f:
                     x = pickle.load(f)
                     train_losses[i] = x['train_losses']
                     val_losses[i] = x['val_losses']
-                    if prob == 'PIMA':
+                    if prob != 'CaliforniaHousing':
                         accuracies[i] = x['accuracies']
 
             results[optimizer]['train_losses_mean'] = np.mean(train_losses, axis=0)
@@ -58,7 +54,7 @@ def generate_plots():
             axs[ax].set_title(optimizer + f" ({prob})")
             axs[ax].set_ylabel('Loss')
 
-            if (prob == 'PIMA'):
+            if (prob != 'CaliforniaHousing'):
                 ax2 = axs[ax].twinx()
                 color = 'tab:red'
                 ax2.set_ylabel('accuracy', color=color)
@@ -69,10 +65,8 @@ def generate_plots():
                 ax2.set_ylim([0.45, 0.95])
                 ax2.tick_params(axis='y', labelcolor=color)
             if (ax == 1):
-                if (prob == 'PIMA'):
+                if (prob != 'CaliforniaHousing'):
                     ax2.legend(loc='upper left')
                 axs[ax].legend(loc='upper right')
 
             plt.savefig(graph_path + f"/{prob}.png")
-
-generate_plots()

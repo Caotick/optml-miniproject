@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from helpers import *
 
-def train(dataset, folds, prob, opt):
+def train(dataset, folds, prob, opt, nb_epochs):
     for fold, (train_ids, test_ids) in enumerate(folds):
         print(f'FOLD {fold}')
         print('--------------------------------')
@@ -15,27 +15,27 @@ def train(dataset, folds, prob, opt):
         # Define data loaders for training and testing data in this fold
         trainloader = torch.utils.data.DataLoader(
             dataset,
-            batch_size=32, sampler=train_subsampler)
+            batch_size=64, sampler=train_subsampler, num_workers=4)
         testloader = torch.utils.data.DataLoader(
             dataset,
-            batch_size=32, sampler=test_subsampler)
+            batch_size=64, sampler=test_subsampler, num_workers=4)
 
         model = get_model(prob)
-        optimizer = get_optimizer(opt, parameters=model.parameters())
         criterion = get_criterion(prob)
 
-        train_losses, val_losses, accuracies = train_single_fold(model, optimizer, criterion, trainloader, testloader, epochs = 100)
+        device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+        model.to(device)
+        criterion.to(device)
+
+        optimizer = get_optimizer(opt, parameters=model.parameters())
+
+        train_losses, val_losses, accuracies = train_single_fold(model, optimizer, criterion, trainloader, testloader, device, epochs = nb_epochs)
 
         save_res(prob, opt, train_losses, val_losses, accuracies, fold)
 
 
-def train_single_fold(model, optimizer, criterion, trainloader, testloader, epochs=2):
+def train_single_fold(model, optimizer, criterion, trainloader, testloader, device, epochs=100):
     train_losses, val_losses, accuracies = [], [], []
-
-    device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
-
-    model.to(device)
-    criterion.to(device)
 
     for epoch in range(epochs):
         # Training
