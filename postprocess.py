@@ -105,10 +105,12 @@ def print_best_loss_and_acc(nb_epochs, nb_fold, problems, optimizers):
 
             if prob != 'CaliforniaHousing':
                 print(f"====== {optimizer} ====== \n"
-                      f" Mean Train loss on best val loss : {results[optimizer]['train_losses_mean'][min_val_loss_epoch]} \n"
                       f" Best Mean Val loss : {results[optimizer]['val_losses_mean'][min_val_loss_epoch]}\n"
+                      f" Reached on epoch: {min_val_loss_epoch} \n"
+                      f" Mean Train loss on best val loss : {results[optimizer]['train_losses_mean'][min_val_loss_epoch]} \n"
                       f" Mean Accuracy on best val loss: {results[optimizer]['accuracies_mean'][min_val_loss_epoch]} \n")
             else:
-                print(f"{prob} Best validation loss with optimizer {optimizer}: \n"
+                print(f" Best validation loss with optimizer {optimizer}: \n"
+                      f" Reached on epoch: {min_val_loss_epoch} \n"
                       f" Mean Train loss on best val loss: {results[optimizer]['train_losses_mean'][min_val_loss_epoch]} \n"
                       f" Mean Val loss : {results[optimizer]['val_losses_mean'][min_val_loss_epoch]}\n")
