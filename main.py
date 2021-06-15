@@ -16,8 +16,8 @@ problems = ['PIMA', 'CaliforniaHousing', 'FashionMNIST']
 optimizers = ['SGD', 'Adagrad', 'Adam']
 
 # Decide number of epochs!
-nb_epochs = 100
-nb_fold = 5
+nb_epochs = 50
+nb_fold = 10
 
 for prob in problems:
     print(f'Problem {prob}')

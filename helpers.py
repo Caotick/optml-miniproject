@@ -2,6 +2,7 @@ import os
 import pickle
 import torch
 import torch.nn as nn
+import numpy as np
 from torchvision.datasets import FashionMNIST
 from torch.utils.data import ConcatDataset
 from torchvision import transforms
@@ -69,6 +70,7 @@ def load_data(dataname, k_folds = 10):
         dataset_train_part = FashionMNIST(os.getcwd() + 'data/FashionMNIST', download=True, transform=transforms.ToTensor(), train=True)
         dataset_test_part = FashionMNIST(os.getcwd() + 'data/FashionMNIST', download=True, transform=transforms.ToTensor(), train=False)
         dataset = ConcatDataset([dataset_train_part, dataset_test_part])
+        dataset = torch.utils.data.Subset(dataset, torch.randperm(len(dataset))[:len(dataset) // 2]) # select subset of FMNIST to speedup
 
     else:
         raise Exception(f'Dataset {dataname} is not supported')

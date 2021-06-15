@@ -7,6 +7,7 @@ def train(dataset, folds, prob, opt, nb_epochs):
     for fold, (train_ids, test_ids) in enumerate(folds):
         print(f'FOLD {fold}')
         print('--------------------------------')
+        batch_size = 64
 
         # Sample elements randomly from a given list of ids, no replacement.
         train_subsampler = torch.utils.data.SubsetRandomSampler(train_ids)
@@ -15,10 +16,10 @@ def train(dataset, folds, prob, opt, nb_epochs):
         # Define data loaders for training and testing data in this fold
         trainloader = torch.utils.data.DataLoader(
             dataset,
-            batch_size=64, sampler=train_subsampler, num_workers=4)
+            batch_size=batch_size, sampler=train_subsampler, num_workers=4, pin_memory=torch.cuda.is_available())
         testloader = torch.utils.data.DataLoader(
             dataset,
-            batch_size=64, sampler=test_subsampler, num_workers=4)
+            batch_size=batch_size, sampler=test_subsampler, num_workers=4, pin_memory=torch.cuda.is_available())
 
         model = get_model(prob)
         criterion = get_criterion(prob)
@@ -29,12 +30,12 @@ def train(dataset, folds, prob, opt, nb_epochs):
 
         optimizer = get_optimizer(opt, parameters=model.parameters())
 
-        train_losses, val_losses, accuracies = train_single_fold(model, optimizer, criterion, trainloader, testloader, device, epochs = nb_epochs)
+        train_losses, val_losses, accuracies = train_single_fold(model, optimizer, criterion, trainloader, testloader, device, len(train_ids), len(test_ids), batch_size=batch_size, epochs = nb_epochs)
 
         save_res(prob, opt, train_losses, val_losses, accuracies, fold)
 
 
-def train_single_fold(model, optimizer, criterion, trainloader, testloader, device, epochs=100):
+def train_single_fold(model, optimizer, criterion, trainloader, testloader, device, size_train, size_test, batch_size, epochs=100):
     train_losses, val_losses, accuracies = [], [], []
 
     for epoch in range(epochs):
@@ -58,7 +59,7 @@ def train_single_fold(model, optimizer, criterion, trainloader, testloader, devi
             optimizer.step()
 
         # TODO
-        # train_loss = train_loss * batch_size / len(train_set)  # Necessary to have the mean train loss
+        train_loss = train_loss * batch_size / size_train  # Necessary to have the mean train loss
 
         # Evaluation
         model.eval()  # Set model to eval mode
@@ -81,7 +82,7 @@ def train_single_fold(model, optimizer, criterion, trainloader, testloader, devi
                 num_examples += correct.shape[0]
 
         # TODO
-        #val_loss = val_loss * batch_size / len(test_set)  # Necessary to have the mean val loss
+        val_loss = val_loss * batch_size / size_test  # Necessary to have the mean val loss
 
         if type(criterion) == nn.CrossEntropyLoss:
             print(f'Epoch {epoch}, Training Loss: {train_loss:.2f}, Validation Loss : {val_loss:.2f}, accuracy = {num_correct / num_examples:.2f}')
