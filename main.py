@@ -28,4 +28,4 @@ for prob in problems:
         print('--------------------------------')
         train(dataset, folds, prob, opt, nb_epochs)
 
-generate_plots(nb_epochs, nb_fold)
+generate_plots(nb_epochs, nb_fold, problems, optimizers)

@@ -1,4 +1,3 @@
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -7,7 +6,7 @@ class MLP(nn.Module):
         super().__init__()
         self.nb_hidden = nb_hidden
         self.fc_in = nn.Linear(in_dim, hidden_dim)
-        self.fc_hids = [nn.Linear(nb_hidden, nb_hidden) for i in range(nb_hidden)]
+        self.fc_hids = nn.ModuleList([nn.Linear(hidden_dim, hidden_dim) for i in range(nb_hidden)])
         self.fc_out = nn.Linear(hidden_dim, out_dim)
 
     def forward(self, x):

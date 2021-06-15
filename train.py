@@ -10,6 +10,7 @@ def train(dataset, folds, prob, opt, nb_epochs):
         batch_size = 64
 
         # Sample elements randomly from a given list of ids, no replacement.
+        torch.manual_seed(404) # Used to preserve folds accross optimizers for a given problem
         train_subsampler = torch.utils.data.SubsetRandomSampler(train_ids)
         test_subsampler = torch.utils.data.SubsetRandomSampler(test_ids)
 

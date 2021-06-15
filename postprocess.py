@@ -5,13 +5,11 @@ import os
 from collections import defaultdict
 
 
-def generate_plots(nb_epochs, nb_fold):
+def generate_plots(nb_epochs, nb_fold, problems, optimizers):
     """
     Generates the plots after having run all data
     """
 
-    problems = ['PIMA', 'CaliforniaHousing', 'FashionMNIST']
-    optimizers = ['SGD', 'Adagrad', 'Adam']
     current = os.getcwd()
     data_path = current + "/data/test_run"
     graph_path = current + "/data/graph"
