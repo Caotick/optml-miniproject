@@ -75,7 +75,6 @@ def generate_plots(nb_epochs, nb_fold, problems, optimizers):
 def print_best_loss_and_acc(nb_epochs, nb_fold, problems, optimizers):
     current = os.getcwd()
     data_path = current + "/data/test_run"
-    graph_path = current + "/data/graph"
 
     results = defaultdict(dict)
 
@@ -104,11 +103,14 @@ def print_best_loss_and_acc(nb_epochs, nb_fold, problems, optimizers):
             min_val_loss_epoch = np.argmin(results[optimizer]['val_losses_mean'])
 
             if prob != 'CaliforniaHousing':
+                max_acc_loss_epoch = np.argmax(results[optimizer]['accuracies_mean'])
                 print(f"====== {optimizer} ====== \n"
                       f" Best Mean Val loss : {results[optimizer]['val_losses_mean'][min_val_loss_epoch]}\n"
                       f" Reached on epoch: {min_val_loss_epoch} \n"
                       f" Mean Train loss on best val loss : {results[optimizer]['train_losses_mean'][min_val_loss_epoch]} \n"
-                      f" Mean Accuracy on best val loss: {results[optimizer]['accuracies_mean'][min_val_loss_epoch]} \n")
+                      f" Mean Accuracy on best val loss: {results[optimizer]['accuracies_mean'][min_val_loss_epoch]} \n"
+                      f" Best Mean Accuracy : {results[optimizer]['accuracies_mean'][max_acc_loss_epoch]} \n"
+                      f" Reached on epoch : {max_acc_loss_epoch}")
             else:
                 print(f" Best validation loss with optimizer {optimizer}: \n"
                       f" Reached on epoch: {min_val_loss_epoch} \n"
