@@ -7,10 +7,7 @@ from helpers import *
 torch.manual_seed(404)
 
 # Creates the complete folder architecture
-#create_folders_structure()
-
-#problems = ['PIMA', 'CaliforniaHousing', 'FashionMNIST']
-#optimizers = ['SGD', 'Adagrad', 'Adam']
+create_folders_structure()
 
 problems = ['PIMA', 'CaliforniaHousing', 'FashionMNIST']
 optimizers = ['SGD', 'Adagrad', 'Adam']
@@ -19,7 +16,7 @@ optimizers = ['SGD', 'Adagrad', 'Adam']
 nb_epochs = 50
 nb_fold = 10
 
-"""for prob in problems:
+for prob in problems:
     print(f'Problem {prob}')
     print('--------------------------------')
     for opt in optimizers:
@@ -28,6 +25,6 @@ nb_fold = 10
         print('--------------------------------')
         train(dataset, folds, prob, opt, nb_epochs)
 
-generate_plots(nb_epochs, nb_fold, problems, optimizers)"""
+generate_plots(nb_epochs, nb_fold, problems, optimizers)
 
 print_best_loss_and_acc(nb_epochs, nb_fold, problems, optimizers)
