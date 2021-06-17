@@ -21,6 +21,7 @@ def check_path_and_create(path):
     if not os.path.exists(path):
         os.mkdir(path)
 
+
 def create_folders_structure():
     """
     Creates the data folder and subfolders
@@ -67,14 +68,14 @@ def save_res(problem, optimizer, train_losses, val_losses, accuracies, nb_fold):
         pickle.dump(to_save, f)
 
 
-def load_data(dataname, k_folds = 10):
+def load_data(dataname, k_folds=10):
     """
     Given the name of the dataset, provide the corresponding dataset and fold iterator
     :param dataname: str, Name of dataset to load
     :param k_folds: int, Number of cross validation folds
     :return: dataset, fold iterator
     """
-    kfold = KFold(n_splits=k_folds, shuffle=True, random_state= 404)
+    kfold = KFold(n_splits=k_folds, shuffle=True, random_state=404)
 
     if dataname.lower() == 'pima':
         dataset = PIMADataset('data/PIMA/diabetes.csv')
@@ -84,10 +85,13 @@ def load_data(dataname, k_folds = 10):
 
     elif dataname.lower() == 'fashionmnist':
         # Prepare Fashion MNIST dataset by concatenating Train and Test, CV handled later
-        dataset_train_part = FashionMNIST(os.getcwd() + 'data/FashionMNIST', download=True, transform=transforms.ToTensor(), train=True)
-        dataset_test_part = FashionMNIST(os.getcwd() + 'data/FashionMNIST', download=True, transform=transforms.ToTensor(), train=False)
+        dataset_train_part = FashionMNIST(os.getcwd() + 'data/FashionMNIST', download=True,
+                                          transform=transforms.ToTensor(), train=True)
+        dataset_test_part = FashionMNIST(os.getcwd() + 'data/FashionMNIST', download=True,
+                                         transform=transforms.ToTensor(), train=False)
         dataset = ConcatDataset([dataset_train_part, dataset_test_part])
-        dataset = torch.utils.data.Subset(dataset, torch.randperm(len(dataset))[:len(dataset) // 2]) # select subset of FMNIST for speedup
+        dataset = torch.utils.data.Subset(dataset, torch.randperm(len(dataset))[
+                                                   :len(dataset) // 2])  # select subset of FMNIST for speedup
 
     else:
         raise Exception(f'Dataset {dataname} is not supported')
