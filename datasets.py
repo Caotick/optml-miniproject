@@ -33,11 +33,9 @@ class HousingDataset(Dataset):
     """
     def __init__(self, csv_file):
         df = pd.read_csv(csv_file)
-        #Dropping rows that contain Nan (missing values only in total_bedrooms, nb columns dropped = 207)
         df = df.dropna().sample(n=3000)
         # Standardising
         X = df.drop(['median_house_value', 'ocean_proximity'], axis=1)
-        # TODO standardise lat lon ?
         X = (X - X.mean()) / X.std()
         X['median_house_value'] = df['median_house_value'] / 1000.0 # Thousands of USD as unit
 

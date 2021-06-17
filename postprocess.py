@@ -37,8 +37,6 @@ def generate_plots(nb_epochs, nb_fold, problems, optimizers):
             results[optimizer]['val_losses_mean'] = np.mean(val_losses, axis=0)
             results[optimizer]['accuracies_mean'] = np.mean(accuracies, axis=0)
 
-
-
             results[optimizer]['train_losses_std'] = np.std(train_losses, axis=0)
             results[optimizer]['val_losses_std'] = np.std(val_losses, axis=0)
             results[optimizer]['accuracies_std'] = np.std(accuracies, axis=0)
@@ -98,7 +96,6 @@ def print_best_loss_and_acc(nb_epochs, nb_fold, problems, optimizers):
             results[optimizer]['train_losses_mean'] = np.mean(train_losses, axis=0)
             results[optimizer]['val_losses_mean'] = np.mean(val_losses, axis=0)
             results[optimizer]['accuracies_mean'] = np.mean(accuracies, axis=0)
-
 
             min_val_loss_epoch = np.argmin(results[optimizer]['val_losses_mean'])
 
