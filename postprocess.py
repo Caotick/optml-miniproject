@@ -8,6 +8,12 @@ from collections import defaultdict
 def generate_plots(nb_epochs, nb_fold, problems, optimizers):
     """
     Generates the plots after having run all data
+
+    :param nb_epochs: int, number of epochs run
+    :param nb_fold: int, number of folds used for cross validation
+    :param problems: list(str), names of the dataset used
+    :param optimizers: list(str), names of the optimizers used
+    :return: None
     """
 
     current = os.getcwd()
@@ -71,6 +77,15 @@ def generate_plots(nb_epochs, nb_fold, problems, optimizers):
 
 
 def print_best_loss_and_acc(nb_epochs, nb_fold, problems, optimizers):
+    """
+    Print statistics on the runs
+
+    :param nb_epochs: int, number of epochs run
+    :param nb_fold: int, number of folds used for cross validation
+    :param problems: list(str), names of the dataset used
+    :param optimizers: list(str), names of the optimizers used
+    :return: None
+    """
     current = os.getcwd()
     data_path = current + "/data/test_run"
 

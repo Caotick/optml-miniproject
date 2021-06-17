@@ -20,7 +20,7 @@ for prob in problems:
     print(f'Problem {prob}')
     print('--------------------------------')
     for opt in optimizers:
-        dataset, folds = load_data(prob, k_folds=nb_fold) ### Have to shift this here because folds don't run otherwise
+        dataset, folds = load_data(prob, k_folds=nb_fold)
         print(f'Optimizer {opt}')
         print('--------------------------------')
         train(dataset, folds, prob, opt, nb_epochs)
